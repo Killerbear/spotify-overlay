@@ -1,6 +1,7 @@
+import { TOKEN } from "./keys";
+
 class SpotifyService {
-	private token =
-		"BQDp7qLXnqy6qDgpxUH_TaOqV8drrrpGAiStP4awFaH2d5fpeWcw4xlvV318E6XBcHWxZivBjtrPjgh2nbgRYnQUmj256FO8ZCZwwbu6TD2IiptAy7pRmTJo7q6B1mWXNC-FATiOZPT4wcdxP46fZ4JzRdxc9oRLIWLkRSFYf4raW7kX5zgkQem8zw";
+	private token = TOKEN;
 
 	public async getSong() {
 		const response = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
