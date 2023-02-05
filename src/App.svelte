@@ -3,20 +3,37 @@
 	import { SpotifyService } from "./lib/services/spotifyService";
 
 	let item;
+	let error;
 
 	onMount(async () => {
 		let spotifyService = new SpotifyService();
 		const data = await spotifyService.getSong();
-		item = data.item;
+		if (data.error) {
+			error = data.error;
+		} else {
+			item = data.item;
+		}
 	});
 </script>
 
 <main>
-	{#if item?.album}
+	{#if !error && item}
 		<img src={item.album.images[0].url} alt="cover" />
 		<div class="info">
 			<div class="artist">{item?.artists[0]?.name}</div>
 			<div class="title">{item?.name}</div>
+		</div>
+	{/if}
+
+	{#if !error && !item}
+		<div class="info">
+			<div class="artist">Es läuft keine Musik</div>
+		</div>
+	{/if}
+
+	{#if error}
+		<div class="info">
+			<div class="artist">Es ist ein Fehler aufgetreten</div>
 		</div>
 	{/if}
 </main>
