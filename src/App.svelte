@@ -7,11 +7,14 @@
 
 	onMount(async () => {
 		let spotifyService = new SpotifyService();
-		const data = await spotifyService.getSong();
-		if (data.error) {
-			error = data.error;
-		} else {
-			item = data.item;
+		await spotifyService.getToken();
+		if (!!spotifyService.token) {
+			const data = await spotifyService.getSong();
+			if (data.error) {
+				error = data.error;
+			} else {
+				item = data.item;
+			}
 		}
 	});
 </script>

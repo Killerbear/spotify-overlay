@@ -1,7 +1,8 @@
-import { TOKEN } from "./keys";
+import { client_id, redirect_uri } from "./keys";
 
 class SpotifyService {
-	private token = TOKEN;
+	private scope = "user-read-currently-playing";
+	public token: string;
 
 	public async getSong() {
 		const response = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
@@ -15,43 +16,22 @@ class SpotifyService {
 		return await response.json();
 	}
 
-	// const client_id = "4646bc101b3345f59a834a3c180e57eb";
-	// const client_secret = "d331fc124b9b43809fbfa974499fee30";
-	// const redirect_uri = "http://localhost:8888/callback";
-	// const scopes = "user-read-currently-playing";
+	public async getToken() {
+		const queryString = window.location.hash.substring(1);
+		const urlParams = new URLSearchParams(queryString);
+		this.token = urlParams.get("access_token");
 
-	// const encode = (data) => {
-	// 	return Object.keys(data)
-	// 		.map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-	// 		.join("&");
-	// };
-	//
-	// const generateRandomString = function (length) {
-	// 	let text = "";
-	// 	let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	//
-	// 	for (let i = 0; i < length; i++) {
-	// 		text += possible.charAt(Math.floor(Math.random() * possible.length));
-	// 	}
-	// 	return text;
-	// };
-	//
-	// const getAuthorization = async () => {
-	// 	let state = generateRandomString(16);
-	// };
-	//
-	// const getAuthToken = (async () => {
-	// 	const response = await fetch("https://accounts.spotify.com/api/token", {
-	// 		method: "POST",
-	// 		headers: {
-	// 			Accept: "application/json",
-	// 			"Content-Type": "application/x-www-form-urlencoded",
-	// 			Authorization: "Basic " + btoa(client_id + ":" + client_secret),
-	// 		},
-	// 		body: encode({ grant_type: "client_credentials" }),
-	// 	});
-	// 	return await response.json();
-	// })();
+		if (!this.token) {
+			window.location.href =
+				"https://accounts.spotify.com/authorize?" +
+				new URLSearchParams({
+					response_type: "token",
+					client_id: client_id,
+					redirect_uri: redirect_uri,
+					scope: this.scope,
+				});
+		}
+	}
 }
 
 export { SpotifyService };
