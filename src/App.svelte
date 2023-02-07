@@ -27,7 +27,9 @@
 					elapseInMs = data.progress_ms + 1000;
 					duration = helper.formatMilliseconds(durationInMs);
 					elapse = helper.formatMilliseconds(elapseInMs);
-					setInterval(updateProgress, 1000);
+					if (data.is_playing) {
+						setInterval(updateProgress, 1000);
+					}
 				})
 				.catch((err) => {
 					error = err;

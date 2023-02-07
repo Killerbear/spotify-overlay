@@ -1,7 +1,8 @@
-import { client_id, redirect_uri } from "./keys";
+import { client_id } from "./keys";
 
 class SpotifyService {
 	private scope = "user-read-currently-playing";
+	private redirect_uri = "http://localhost:5173/callback";
 	public token: string;
 
 	public async getSong() {
@@ -27,7 +28,7 @@ class SpotifyService {
 				new URLSearchParams({
 					response_type: "token",
 					client_id: client_id,
-					redirect_uri: redirect_uri,
+					redirect_uri: this.redirect_uri,
 					scope: this.scope,
 				});
 		}
