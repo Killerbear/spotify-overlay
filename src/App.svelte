@@ -14,27 +14,25 @@
 
 	onMount(async () => {
 		let spotifyService = new SpotifyService();
-		if (!spotifyService.token) {
-			await spotifyService.getToken();
-		}
-		if (!!spotifyService.token) {
-			await spotifyService
-				.getSong()
-				.then((data) => {
-					console.log(data);
-					item = data.item;
-					durationInMs = data.item.duration_ms;
-					elapseInMs = data.progress_ms + 1000;
-					duration = helper.formatMilliseconds(durationInMs);
-					elapse = helper.formatMilliseconds(elapseInMs);
-					if (data.is_playing) {
-						setInterval(updateProgress, 1000);
-					}
-				})
-				.catch((err) => {
-					error = err;
-				});
-		}
+		await spotifyService.getSong();
+		// if (!!spotifyService.token) {
+		// 	await spotifyService
+		// 		.getSong()
+		// 		.then((data) => {
+		// 			console.log(data);
+		// 			item = data.item;
+		// 			durationInMs = data.item.duration_ms;
+		// 			elapseInMs = data.progress_ms + 1000;
+		// 			duration = helper.formatMilliseconds(durationInMs);
+		// 			elapse = helper.formatMilliseconds(elapseInMs);
+		// 			if (data.is_playing) {
+		// 				setInterval(updateProgress, 1000);
+		// 			}
+		// 		})
+		// 		.catch((err) => {
+		// 			error = err;
+		// 		});
+		// }
 	});
 
 	function updateProgress() {
